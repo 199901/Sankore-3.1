@@ -19,15 +19,14 @@
 #include <QtGui>
 
 #include "frameworks/UBStringUtils.h"
-
 #include "core/UBSettings.h"
+#include "interfaces/IDocument.h"
 
 class UBGraphicsScene;
 
 class UBDocumentProxy : public QObject
 {
     Q_OBJECT
-
     friend class UBPersistenceManager;
 
     public:

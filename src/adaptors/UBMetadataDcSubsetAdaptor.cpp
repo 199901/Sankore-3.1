@@ -71,7 +71,7 @@ void UBMetadataDcSubsetAdaptor::persist(UBDocumentProxy* proxy)
 {
     // TODO: replace the call to this method by the one in UBDocument
     if(NULL != UBApplication::documentController && NULL != UBApplication::documentController->currentDocument())
-        UBApplication::documentController->currentDocument()->persist(proxy->persistencePath());
+        UBApplication::documentController->currentDocument()->persist();
     // --------------------------------------------------------------
 
     if(!QDir(proxy->persistencePath()).exists()){

@@ -151,7 +151,7 @@ UBCFFSubsetAdaptor::UBCFFSubsetReader::UBCFFSubsetReader(UBDocumentProxy *proxy,
 bool UBCFFSubsetAdaptor::UBCFFSubsetReader::parse()
 {
     UBMetadataDcSubsetAdaptor::persist(mProxy); // Remove this one afer new metadata saving method validation
-    UBApplication::documentController->currentDocument()->persist(mProxy->persistencePath());
+    UBApplication::documentController->currentDocument()->persist();
     mIndent = "";
     if (!getTempFileName() || !createTempFlashPath())
         return false;

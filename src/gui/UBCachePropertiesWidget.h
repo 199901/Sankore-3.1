@@ -83,10 +83,10 @@ private:
     QSlider* mpHeightSlider;
     QHBoxLayout* mpColorLayout;
     QHBoxLayout* mpShapeLayout;
+    QVBoxLayout* mpSizeLayout;
     QHBoxLayout* mpCloseLayout;
     QWidget* mpProperties;
-    UBCachePreviewWidget *mpPreviewWidget;
-    QVBoxLayout* mpSizeLayout;
+    UBCachePreviewWidget *mpPreviewWidget;   
     QVBoxLayout* mpPropertiesLayout;
     QVBoxLayout *mpModeLayout;
     QVBoxLayout *mpPreviewLayout;

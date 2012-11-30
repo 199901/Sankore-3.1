@@ -30,14 +30,6 @@ class QScrollArea;
 #include "interfaces/IDataStorage.h"
 #include "abstract/UBAbstractMetaDataProvider.h"
 
-typedef enum
-{
-    tUBTGZeroPageMode_EDITION,
-    tUBTGZeroPageMode_PRESENTATION
-}tUBTGZeroPageMode;
-
-#define LOWER_RESIZE_WIDTH 50
-
 /***************************************************************************
  *               class    UBTeacherGuideEditionWidget                      *
  ***************************************************************************/

@@ -23,10 +23,6 @@
 #include "core/UBApplication.h"
 #include "core/UBSettings.h"
 
-
-#include "gui/UBDockTeacherGuideWidget.h"
-#include "gui/UBTeacherGuideWidget.h"
-
 #include "board/UBBoardController.h"
 #include "board/UBBoardPaletteManager.h"
 
@@ -125,7 +121,7 @@ void UBThumbnailAdaptor::persistScene(UBDocumentProxy* proxy, UBGraphicsScene* p
 
     QFile thumbFile(fileName);
 
-    if (pScene->isModified() || overrideModified || !thumbFile.exists() || UBApplication::boardController->paletteManager()->teacherGuideDockWidget()->teacherGuideWidget()->isModified())
+    if (pScene->isModified() || overrideModified || !thumbFile.exists() /*|| UBApplication::boardController->paletteManager()->teacherGuideDockWidget()->teacherGuideWidget()->isModified()*/)
     {
         qreal nominalWidth = pScene->nominalSize().width();
         qreal nominalHeight = pScene->nominalSize().height();

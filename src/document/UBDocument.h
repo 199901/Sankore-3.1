@@ -20,8 +20,11 @@
 #include <QDateTime>
 #include "UBDocumentPage.h"
 #include "abstract/UBAbstractMetaDataProvider.h"
+#include "interfaces/IDocument.h"
+#include "UBDocumentProxy.h"
 
-class UBDocument : public UBAbstractMetaDataProvider{
+class UBDocument : public UBAbstractMetaDataProvider, public IDocument{
+    Q_INTERFACES(IDocument)
 public:
     UBDocument();
     ~UBDocument();
@@ -35,7 +38,7 @@ public:
     void appendPage(UBDocumentPage* &page);
     void addPageAt(UBDocumentPage* &page, int index);
     void removePage(UBDocumentPage* &page);
-    void persist(const QString& path);
+    void persist();
     QString title();
     void setTitle(const QString& title);
     QString type();
@@ -54,6 +57,20 @@ public:
     void setSize(const QString& size);
     QString uuid();
     void setUuid(const QString& uuid);
+
+    virtual QString persistencePath() const;
+    virtual QString name() const;
+    virtual QString groupName() const;
+    virtual QSize defaultDocumentSize() const;
+    virtual QUuid uuid() const;
+    virtual bool isModified() const;
+    virtual void setModified(bool modified);
+    virtual int pageCount();
+    virtual QVariant metaData(const QString& pKey) const;
+    virtual QHash<QString, QVariant> metaDatas() const;
+
+    void setDocumentProxy(UBDocumentProxy* proxy);
+    UBDocumentProxy* documentProxy();
 
 private:
     void init();
@@ -79,7 +96,11 @@ private:
     /** Size */
     QString mSize;  // Nobody knows what's this...
     /** Uuid */
-    QString mUuid;
+    QUuid mUuid;
+    /** Modified flag */
+    bool mModified;
+    /** The current document proxy */
+    UBDocumentProxy* mpProxy;
 };
 
 #endif // UBDOCUMENT_H

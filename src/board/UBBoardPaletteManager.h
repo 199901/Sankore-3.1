@@ -39,7 +39,6 @@ class UBServerXMLHttpRequest;
 class UBKeyboardPalette;
 class UBMainWindow;
 class UBApplicationController;
-class UBDockTeacherGuideWidget;
 
 // Uncomment this to use old-styles lib paletter
 // #define USE_WEB_WIDGET
@@ -61,18 +60,14 @@ class UBBoardPaletteManager : public QObject
         void initPalettesPosAtStartup();
         void connectToDocumentController();
         void refreshPalettes();
-
         UBKeyboardPalette *mKeyboardPalette;
-
         void setCurrentWebToolsPalette(UBWebToolsPalette *palette) {mWebToolsCurrentPalette = palette;}
         UBWebToolsPalette* mWebToolsCurrentPalette;
-
-        UBDockTeacherGuideWidget* teacherGuideDockWidget() { return mpTeacherGuideWidget;}
-
         void processPalettersWidget(UBDockPalette *paletter, eUBDockPaletteWidgetMode mode);
         void changeMode(eUBDockPaletteWidgetMode newMode, bool isInit = false);
         void startDownloads();
         void stopDownloads();
+        void insertDockWidget(UBDockPaletteWidget* w, eDockOrientation orientation);
 
     signals:
         void connectToDocController();
@@ -142,7 +137,6 @@ class UBBoardPaletteManager : public QObject
 
         /** The download widget */
         UBDockDownloadWidget* mpDownloadWidget;
-        UBDockTeacherGuideWidget* mpTeacherGuideWidget;
 
         bool mDownloadInProgress;
 

@@ -51,18 +51,6 @@
 
 #define UBTG_SEPARATOR_FIXED_HEIGHT 3
 
-const QString qsNamespace = "ub";
-const QString qsNamespaceUrl = "http://uniboard.mnemis.com/document";
-
-const QString qsMetaTitle = "";
-const QString qsMetaAuthor = "";
-const QString qsMetaObjectives = "";
-const QString qsMetaKeywords = "";
-const QString qsMetaGradeLevel = "";
-const QString qsMetaSubjects = "";
-const QString qsMetaType = "";
-const QString qsMetaLicense = "";
-
 typedef enum {
     eUBTGAddSubItemWidgetType_None,
     eUBTGAddSubItemWidgetType_Action,

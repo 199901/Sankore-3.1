@@ -1,8 +1,6 @@
 TARGET = "Open-Sankore"
 TEMPLATE = app
 
-
-
 CONFIG -= flat
 CONFIG += debug_and_release \
           no_include_pwd
@@ -44,7 +42,6 @@ include($$CORE_SRC/board/board.pri)
 include($$CORE_SRC/core/core.pri)
 include($$CORE_SRC/document/document.pri)
 include($$CORE_SRC/domain/domain.pri)
-include($$CORE_SRC/frameworks/frameworks.pri)
 include($$CORE_SRC/gui/gui.pri)
 include($$CORE_SRC/network/network.pri)
 include($$CORE_SRC/pdf/pdf.pri)
@@ -53,25 +50,39 @@ include($$CORE_SRC/tools/tools.pri)
 include($$CORE_SRC/desktop/desktop.pri)
 include($$CORE_SRC/web/web.pri)
 include($$CORE_SRC/transition/transition.pri)
-include($$CORE_SRC/interfaces/interfaces.pri)
-include($$CORE_SRC/customWidgets/customWidgets.pri)
-include($$CORE_SRC/abstract/abstract.pri)
-include($$CORE_SRC/devtools/devtools.pri)
-include($$CORE_SRC/globals/globals.pri)
+
+# Static libraries
+SANKOREAPI_BASEPATH = $$PWD/../Sankore-API
+SANKOREAPI_PATH = $$SANKOREAPI_BASEPATH/build
+macx:SANKOREAPI_PATH = $$SANKOREAPI_PATH/macx
+win32:SANKOREAPI_PATH = $$SANKOREAPI_PATH/win32
+linux-g++*:SANKOREAPI_PATH = $$SANKOREAPI_PATH/linux
+CONFIG(debug, debug|release):SANKOREAPI_PATH = $$SANKOREAPI_PATH/debug/product
+CONFIG(release, debug|release) {
+   SANKOREAPI_PATH = $$SANKOREAPI_PATH/release/product
+}
+LIBS += -L$$SANKOREAPI_PATH -lSankoreAPI
+INCLUDEPATH += $$SANKOREAPI_BASEPATH
+
+# 3rd party static libraries
+THIRDPARTY_PATH = $$PWD/../Sankore-ThirdParty
+QUAZIP_BASEPATH = $$THIRDPARTY_PATH/quazip
+QUAZIP_PATH = $$QUAZIP_BASEPATH/lib
+macx:QUAZIP_PATH = $$QUAZIP_PATH/macx
+win32:QUAZIP_PATH = $$QUAZIP_PATH/win32
+linug-g++*:QUAZIP_PATH = $$QUAZIP_PATH/linux
+LIBS += -L$$QUAZIP_PATH -lquazip
+INCLUDEPATH += $$QUAZIP_BASEPATH/quazip-0.3
 
 DEPENDPATH += src/pdf-merger
 INCLUDEPATH += src/pdf-merger
 include($$CORE_SRC/pdf-merger/pdfMerger.pri)
 
-#plugins
+# plugins (no, don't use it like that)
 include(plugins/plugins.pri)
 INCLUDEPATH += plugins/cffadaptor/src
 
-
-#ThirdParty
-DEPENDPATH += $$THIRD_PARTY_PATH/quazip/
-INCLUDEPATH += $$THIRD_PARTY_PATH/quazip/
-include($$THIRD_PARTY_PATH/quazip/quazip.pri)
+# ThirdParty
 DEPENDPATH += $$THIRD_PARTY_PATH/trolltech/singleapplication
 INCLUDEPATH += $$THIRD_PARTY_PATH/trolltech/singleapplication
 include($$THIRD_PARTY_PATH/trolltech/singleapplication/qtsingleapplication.pri)

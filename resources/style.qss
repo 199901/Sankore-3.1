@@ -4,7 +4,7 @@ QWidget#UBLibPathViewer,
 QWidget#UBLibNavigatorWidget,
 QWidget#UBLibItemProperties,
 QWidget#UBDownloadWidget,
-QWidget#UBTeacherGuideWidget,
+QWidget#UBTGWidget,
 QWidget#UBFeaturesNavigatorWidget,
 QWidget#PathList,
 QWidget#UBFeaturesCentralWidget

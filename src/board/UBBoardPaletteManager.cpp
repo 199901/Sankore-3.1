@@ -84,7 +84,6 @@ UBBoardPaletteManager::UBBoardPaletteManager(QWidget* container, UBBoardControll
     , mpPageNavigWidget(NULL)
     , mpCachePropWidget(NULL)
     , mpDownloadWidget(NULL)
-    , mpTeacherGuideWidget(NULL)
     , mDownloadInProgress(false)
 {
     setupPalettes();
@@ -1005,5 +1004,24 @@ void UBBoardPaletteManager::stopDownloads()
         mDownloadInProgress = false;
         mpDownloadWidget->setVisibleState(false);
         mRightPalette->removeTab(mpDownloadWidget);
+    }
+}
+
+/**
+ *
+ */
+void UBBoardPaletteManager::insertDockWidget(UBDockPaletteWidget* w, eDockOrientation orientation){
+    if(NULL != w){
+        UBDockPalette* palette;
+        switch(orientation){
+            case eDockOrientation_Left:
+                palette = mLeftPalette;
+                break;
+            case eDockOrientation_Right:
+                palette = mRightPalette;
+                break;
+        }
+        palette->registerWidget(w);
+        palette->addTab(w);
     }
 }

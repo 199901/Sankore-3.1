@@ -36,7 +36,7 @@ const QString qsMetaUbUpdate = "updated-at";
 /**
  * \brief Constructor
  */
-UBDocument::UBDocument(){
+UBDocument::UBDocument():mpProxy(NULL){
     init();
     registerMetaDataProvider(this);
 }
@@ -151,27 +151,31 @@ void UBDocument::removePage(UBDocumentPage *&page){
 /**
  * \brief Save the document
  */
-void UBDocument::persist(const QString& path){
-    //  -------------------------
-    //  -- Save the meta datas
-    //  -------------------------
-    QVector<IMetaDataProvider*>::const_iterator itMetaData;
+void UBDocument::persist(){
+    if(NULL != mpProxy){
+        QString path = mpProxy->persistencePath();
+        //  -------------------------
+        //  -- Save the meta datas
+        //  -------------------------
+        QVector<IMetaDataProvider*>::const_iterator itMetaData;
 
-    // Here we build the metadata structure
-    QList<sNamespace> qlNs;
-    QList<sMetaData> qlMd;
-    for(itMetaData = mlMetaDataProviders.constBegin(); itMetaData != mlMetaDataProviders.constEnd(); itMetaData++)
-        (*itMetaData)->save(qlNs, qlMd);
+        // Here we build the metadata structure
+        QList<sNamespace> qlNs;
+        QList<sMetaData> qlMd;
+        for(itMetaData = mlMetaDataProviders.constBegin(); itMetaData != mlMetaDataProviders.constEnd(); itMetaData++)
+            (*itMetaData)->save(qlNs, qlMd);
 
-    // Then we persist the datas in a file
-    UBMetaDataAdaptor* adaptor = new UBMetaDataAdaptor();
-    adaptor->persist(path, qlNs, qlMd, mIdentifier.toAscii().constData());
+        // Then we persist the datas in a file
+        UBMetaDataAdaptor* adaptor = new UBMetaDataAdaptor();
+        adaptor->persist(path, qlNs, qlMd, mIdentifier.toAscii().constData());
+    }
 }
 
 /**
  * \brief Init the document
  */
 void UBDocument::init(){
+    mModified = false;
     addMetaData(nameSpace(), qsMetaTitle);
     addMetaData(nameSpace(), qsMetaType);
     addMetaData(nameSpace(), qsMetaDate);
@@ -323,7 +327,7 @@ void UBDocument::setSize(const QString& size){
  * @return the document uuid
  */
 QString UBDocument::uuid(){
-    return mUuid;
+    return mUuid.toString();
 }
 
 /**
@@ -332,4 +336,53 @@ QString UBDocument::uuid(){
  */
 void UBDocument::setUuid(const QString &uuid){
     mUuid = uuid;
+}
+
+
+QString UBDocument::persistencePath() const{
+    return mpProxy->persistencePath();
+}
+
+QString UBDocument::name() const{
+    return mpProxy->name();
+}
+
+QString UBDocument::groupName() const{
+    return mpProxy->groupName();
+}
+
+QSize UBDocument::defaultDocumentSize() const{
+    return mpProxy->defaultDocumentSize();
+}
+
+QUuid UBDocument::uuid() const{
+    return mUuid;
+}
+
+bool UBDocument::isModified() const{
+    return mModified;
+}
+
+void UBDocument::setModified(bool modified){
+    mModified = modified;
+}
+
+int UBDocument::pageCount(){
+    return mlPages.size();
+}
+
+QVariant UBDocument::metaData(const QString& pKey) const{
+    return mpProxy->metaData(pKey);
+}
+
+QHash<QString, QVariant> UBDocument::metaDatas() const{
+    return mpProxy->metaDatas();
+}
+
+void UBDocument::setDocumentProxy(UBDocumentProxy *proxy){
+    mpProxy = proxy;
+}
+
+UBDocumentProxy* UBDocument::documentProxy(){
+    return mpProxy;
 }

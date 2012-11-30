@@ -37,7 +37,6 @@
 #include "gui/UBResources.h"
 #include "gui/UBMainWindow.h"
 #include "gui/UBThumbnailWidget.h"
-#include "gui/UBTeacherGuideWidgetsTools.h"
 
 #include "board/UBBoardController.h"
 #include "board/UBBoardPaletteManager.h"
@@ -1361,9 +1360,7 @@ void UBBoardView::dropEvent (QDropEvent *event)
         if (!event->source()
                 || qobject_cast<UBThumbnailWidget *>(event->source())
                 || qobject_cast<QWebView*>(event->source())
-                || qobject_cast<UBTGMediaWidget*>(event->source())
-                || qobject_cast<QListView *>(event->source())
-                || qobject_cast<UBTGDraggableTreeItem*>(event->source())) {
+                || qobject_cast<QListView *>(event->source())){
             mController->processMimeData (event->mimeData (), mapToScene (event->pos ()));
             event->acceptProposedAction();
         }

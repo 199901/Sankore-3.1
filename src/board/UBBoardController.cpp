@@ -35,8 +35,6 @@
 #include "gui/UBToolWidget.h"
 #include "gui/UBKeyboardPalette.h"
 #include "gui/UBMagnifer.h"
-#include "gui/UBDockTeacherGuideWidget.h"
-#include "gui/UBTeacherGuideWidget.h"
 #include "domain/UBGraphicsPixmapItem.h"
 #include "domain/UBGraphicsItemUndoCommand.h"
 #include "domain/UBGraphicsProxyWidget.h"
@@ -1534,7 +1532,7 @@ void UBBoardController::moveSceneToIndex(int source, int target)
 
         selectedDocument()->setMetaData(UBSettings::documentUpdatedAt, UBStringUtils::toUtcIsoDateTime(QDateTime::currentDateTime()));
         UBMetadataDcSubsetAdaptor::persist(selectedDocument()); // Remove this one afer new metadata saving method validation
-        UBApplication::documentController->currentDocument()->persist(selectedDocument()->persistencePath());
+        UBApplication::documentController->currentDocument()->persist();
 
         mMovingSceneIndex = source;
         setActiveDocumentScene(target);
@@ -1743,9 +1741,7 @@ void UBBoardController::lastWindowClosed()
     if (!mCleanupDone)
     {
         bool teacherGuideModified = false;
-        if(UBApplication::boardController->paletteManager()->teacherGuideDockWidget())
-            teacherGuideModified = UBApplication::boardController->paletteManager()->teacherGuideDockWidget()->teacherGuideWidget()->isModified();
-        if (selectedDocument()->pageCount() == 1 && (!mActiveScene || mActiveScene->isEmpty()) && !teacherGuideModified)
+        if (selectedDocument()->pageCount() == 1 && (!mActiveScene || mActiveScene->isEmpty()))
         {
             UBPersistenceManager::persistenceManager()->deleteDocument(selectedDocument());
         }
@@ -1840,7 +1836,7 @@ void UBBoardController::persistCurrentScene()
     if(UBPersistenceManager::persistenceManager()
             && selectedDocument() && mActiveScene && mActiveSceneIndex != mDeletingSceneIndex
             && (mActiveSceneIndex >= 0) && mActiveSceneIndex != mMovingSceneIndex
-            && (mActiveScene->isModified() || (UBApplication::boardController->paletteManager()->teacherGuideDockWidget() && UBApplication::boardController->paletteManager()->teacherGuideDockWidget()->teacherGuideWidget()->isModified())))
+            && mActiveScene->isModified())
     {
         UBPersistenceManager::persistenceManager()->persistDocumentScene(selectedDocument(), mActiveScene, mActiveSceneIndex);
         updatePage(mActiveSceneIndex);

@@ -371,8 +371,6 @@ int UBApplication::exec(const QString& pFileToImport)
     connect(mainWindow->actionSankoreEditor, SIGNAL(triggered()), applicationController, SLOT(showSankoreEditor()));
     connect(mainWindow->actionCheckUpdate, SIGNAL(triggered()), applicationController, SLOT(checkUpdateRequest()));
 
-
-
     toolBarPositionChanged(UBSettings::settings()->appToolBarPositionedAtTop->get());
 
     bool bUseMultiScreen = UBSettings::settings()->appUseMultiscreen->get().toBool();
@@ -801,9 +799,15 @@ bool UBApplication::loadPlugins(){
 }
 
 void UBApplication::initPlugin(QObject *plugin, const QString &name){
+    Q_UNUSED(name)
     IDockable* dockable = qobject_cast<IDockable*>(plugin);
     if(dockable){
-        qDebug() << "The plugin is dockable!";
+        if(NULL != boardController->paletteManager()){
+            UBDockPaletteWidget* pWidget = dockable->dockableWidget();
+            if(NULL != pWidget){
+                boardController->paletteManager()->insertDockWidget(pWidget, pWidget->orientation());
+            }
+        }
     }
     IBoardUser* boardUser = qobject_cast<IBoardUser*>(plugin);
     if(boardUser){
@@ -815,6 +819,6 @@ void UBApplication::initPlugin(QObject *plugin, const QString &name){
     }
     IDocumentUser* documentUser = qobject_cast<IDocumentUser*>(plugin);
     if(documentUser){
-        qDebug() << "The plugin is a document user!";
+        documentUser->setDocument(documentController->currentDocument());
     }
 }

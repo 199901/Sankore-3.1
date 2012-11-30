@@ -69,9 +69,6 @@ UBDocumentNavigator::~UBDocumentNavigator()
     }
 }
 
-#include "gui/UBDockTeacherGuideWidget.h"
-#include "gui/UBTeacherGuideWidget.h"
-
 /**
  * \brief Generate the thumbnails
  */
